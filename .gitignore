@@ -106,3 +106,4 @@ dist
 tmp/
 files/
 config.json
+db.json
