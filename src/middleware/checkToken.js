@@ -11,12 +11,12 @@ const router = new Router();
 
 // Middleware creation
 router.use(async (req, res, next) => {
-  if (req.headers.id !== config.mainID) {
-    logger.warn('Failed ID check from:', await util.parseIP(req.ip));
+  if (req.headers.token !== config.token) {
+    logger.warn('Failed Token check from:', await util.parseIP(req.ip));
     res.status(200).end();
     return;
   }
-  logger.debug('Passed ID check from:', await util.parseIP(req.ip));
+  logger.debug('Passed Token check from:', await util.parseIP(req.ip));
   next();
 });
 

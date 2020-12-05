@@ -12,7 +12,7 @@ const app = express();
 const logger = require('./util/logger.js');
 
 // Middleware
-const checkID = require('./middleware/checkID.js');
+const checkToken = require('./middleware/checkToken.js');
 const checkIP = require('./middleware/checkIP.js');
 
 // Routers
@@ -22,7 +22,7 @@ const deleteFile = require('./routes/delete.js');
 
 // Routes
 app.use('/get', checkIP, getFile);
-app.use('/save', checkIP, checkID, saveFile);
+app.use('/save', checkIP, checkToken, saveFile);
 app.use('/delete', checkIP, deleteFile);
 
 // 404?
