@@ -3,5 +3,23 @@
     "colors": "^1.4.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0"
-  }
+  },
+  "name": "file-storage-node",
+  "description": "Store files in a node system",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexanderPaolini/file-storage-node.git"
+  },
+  "author": "Alexander Paolini",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/AlexanderPaolini/file-storage-node/issues"
+  },
+  "homepage": "https://github.com/AlexanderPaolini/file-storage-node#readme"
 }
