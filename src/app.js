@@ -21,9 +21,9 @@ const saveFile = require('./routes/save.js');
 const deleteFile = require('./routes/delete.js');
 
 // Routes
-app.use('/get', checkIP, checkID, getFile);
+app.use('/get', checkIP, getFile);
 app.use('/save', checkIP, checkID, saveFile);
-app.use('/delete', checkIP, checkID, deleteFile);
+app.use('/delete', checkIP, deleteFile);
 
 // 404?
 app.use('*', (req, res) => res.status(200).end('How did you get here?'));
