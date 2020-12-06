@@ -15,7 +15,11 @@ router.use(async (req, res, next) => {
   if (await util.parseIP(req.ip) !== config.mainIP) {
     // Warn and return if they don't
     logger.warn('Failed IP check from', await util.parseIP(req.ip));
-    res.status(200).end();
+    res.status(401).json({
+      success: false,
+      message: "Incorrect IP",
+      fix: "none"
+    });
     return;
   }
   // Log if they do
