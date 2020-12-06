@@ -17,8 +17,8 @@ router.get('/:id', async (req, res) => {
   // Check if file's data exists, if not return
   if (!fileData) return res.json({
     success: false,
-    message: 'File does not exist in DB',
-    fix: 'Use a different ID'
+    message: "File does not exist in DB",
+    fix: "Use a different ID"
   });
   // Get the file's path
   let filePath = path.resolve('files', fileData.path);
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
   await fileModel.deleteOne(fileData);
   res.json({
     success: true,
-    message: 'Successfully deleted the file.'
+    message: "Successfully deleted the file."
   });
   return;
 });

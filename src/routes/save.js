@@ -22,8 +22,8 @@ router.post('/', async (req, res) => {
   if (!req.files?.file) {
     res.status(400).json({
       success: false,
-      message: 'No file was sent.',
-      fix: 'Send a file in the request.'
+      message: "No file was sent.",
+      fix: "Send a file in the request."
     });
     return;
   } else {
@@ -39,8 +39,8 @@ router.post('/', async (req, res) => {
         logger.error(err);
         res.status(500).json({
           success: false,
-          message: 'An unknown error has occured.',
-          fix: 'Try again.'
+          message: "An unknown error has occured.",
+          fix: "Try again."
         });
         return;
       } else {

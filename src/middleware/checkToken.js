@@ -15,7 +15,11 @@ router.use(async (req, res, next) => {
   if (req.headers.token !== config.token) {
     // Warn and return if they don't
     logger.warn('Failed Token check from:', await util.parseIP(req.ip));
-    res.status(200).end();
+    res.status(401).json({
+      success: false,
+      message: "Incorrect token",
+      fix: "none"
+    });
     return;
   }
   // Log if they do
