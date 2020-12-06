@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
     return;
   } else {
     let date = new Date();
-    let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}/`;
+    let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}/`;
     let fileID = Date.now();
     let filePath = dateString + fileID;
     req.files.file.mv(`./files/${filePath}`, async (err) => {
