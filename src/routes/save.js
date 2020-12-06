@@ -18,6 +18,7 @@ router.use(fileUpload({
 
 // POST /save
 router.post('/', async (req, res) => {
+  // Check if there is no file, and return if not
   if (!req.files?.file) {
     res.status(400).json({
       success: false,
@@ -26,11 +27,14 @@ router.post('/', async (req, res) => {
     });
     return;
   } else {
+    // Get the data sorted file path created
     let date = new Date();
     let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}/`;
     let fileID = Date.now();
     let filePath = dateString + fileID;
+    // Move the file
     req.files.file.mv(`./files/${filePath}`, async (err) => {
+      // If error return 500 (Internal server error)
       if (err) {
         logger.error(err);
         res.status(500).json({
@@ -40,6 +44,7 @@ router.post('/', async (req, res) => {
         });
         return;
       } else {
+        // Define the object
         let fileObject = {
           id: fileID,
           name: req.files.file.name,
@@ -47,7 +52,9 @@ router.post('/', async (req, res) => {
           path: filePath,
           date: new Date().toLocaleString()
         };
+        // Create the file in the DB with the object
         await fileModel.create(fileObject);
+        // Return with status 200 (OK) and send file's ID
         res.status(200).json({
           success: true,
           id: fileID
@@ -57,7 +64,6 @@ router.post('/', async (req, res) => {
       }
     });
   }
-
 });
 
 // Export

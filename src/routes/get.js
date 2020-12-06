@@ -11,12 +11,15 @@ const router = new Router();
 
 // GET /get/id
 router.get('/:id', async (req, res) => {
+  // Get file's data
   let fileData = await fileModel.findOne({ id: req.params.id });
+  // Check if file's data exists, if not return
   if (!fileData) return res.json({
     success: false,
     message: 'File does not exist.',
     fix: 'Use a different ID.'
   });
+  // Set headers of Content-Type to mime-type of file and send file
   res.header("Content-Type", fileData.mimetype);
   res.sendFile(path.resolve('files', fileData.path));
   logger.log('Sent file', req.params.id);
