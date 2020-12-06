@@ -1,10 +1,6 @@
-// Get config
-const config = require('../../config.json');
-
 // Define util functions
-const util = require('../util/index.js');
 const logger = require('../util/logger.js');
-const db = require('../util/db');
+const fileModel = require('../models/file.js');
 
 // To get the path
 const path = require('path');
@@ -14,10 +10,16 @@ const { Router } = require('express');
 const router = new Router();
 
 // GET /get/id
-router.get('/:id', (req, res) => {
-  let fileDoc = db.getFile(req.params.id);
-  res.header("Content-Type", fileDoc.mimetype);
-  res.sendFile(path.resolve('files', fileDoc.path));
+router.get('/:id', async (req, res) => {
+  let fileData = await fileModel.findOne({ id: req.params.id });
+  if (!fileData) return res.json({
+    success: false,
+    message: 'File does not exist.',
+    fix: 'Use a different ID.'
+  });
+  res.header("Content-Type", fileData.mimetype);
+  res.sendFile(path.resolve('files', fileData.path));
+  logger.log('Sent file', req.params.id);
   return;
 });
 

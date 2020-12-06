@@ -1,10 +1,6 @@
-// Get config
-const config = require('../../config.json');
-
 // Define util functions
-const util = require('../util/index.js');
 const logger = require('../util/logger.js');
-const db = require('../util/db.js');
+const fileModel = require('../models/file.js');
 
 // Define router
 const { Router } = require('express');
@@ -21,7 +17,7 @@ router.use(fileUpload({
 }));
 
 // POST /save
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   if (!req.files?.file) {
     res.status(400).json({
       success: false,
@@ -34,7 +30,7 @@ router.post('/', (req, res) => {
     let dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}/`;
     let fileID = Date.now();
     let filePath = dateString + fileID;
-    req.files.file.mv(`./files/${filePath}`, (err) => {
+    req.files.file.mv(`./files/${filePath}`, async (err) => {
       if (err) {
         logger.error(err);
         res.status(500).json({
@@ -51,11 +47,12 @@ router.post('/', (req, res) => {
           path: filePath,
           date: new Date().toLocaleString()
         };
-        db.saveFile(fileID, fileObject);
+        await fileModel.create(fileObject);
         res.status(200).json({
           success: true,
           id: fileID
         });
+        logger.log('Saved file', fileID);
         return;
       }
     });
