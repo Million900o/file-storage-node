@@ -1,10 +1,6 @@
-// Get config
-const config = require('../../config.json');
-
 // Define util functions
-const util = require('../util/index.js');
 const logger = require('../util/logger.js');
-const db = require('../util/db.js');
+const fileModel = require('../models/file.js');
 
 // For deleting files
 const fs = require('fs');
@@ -15,17 +11,17 @@ const { Router } = require('express');
 const router = new Router();
 
 // GET /delete/id
-router.get('/:id', (req, res) => {
-  let fileDoc = db.getFile(req.params.id);
-  if (!fileDoc) return res.json({
+router.get('/:id', async (req, res) => {
+  let fileData = await fileModel.findOne({ id: req.params.id });
+  if (!fileData) return res.json({
     success: false,
     message: 'File does not exist in DB',
     fix: 'Use a different ID'
   });
-  let filePath = path.resolve('files', fileDoc.path);
+  let filePath = path.resolve('files', fileData.path);
   if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-  logger.debug('Deleted file', req.params.id);
-  db.deleteFile(req.params.id);
+  logger.log('Deleted file', req.params.id);
+  await fileModel.deleteOne(fileData);
   res.json({
     success: true,
     message: 'Successfully deleted the file.'

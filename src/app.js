@@ -5,6 +5,10 @@ const port = config.port || 3000;
 // Define Express
 const express = require('express');
 
+// MongoDB
+const mongoose = require('mongoose');
+mongoose.connect(config.mongo.connectURI, config.mongo.connectOptions);
+
 // Define server
 const app = express();
 
