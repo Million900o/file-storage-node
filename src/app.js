@@ -34,5 +34,6 @@ app.use('*', (req, res) => res.status(200).end('How did you get here?'));
 
 // Start Server
 app.listen(port, () => {
+  // Log when started
   logger.log("File Node started");
 });
