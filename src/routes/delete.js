@@ -13,7 +13,23 @@ const router = new Router();
 // GET /delete/id
 router.get('/:id', async (req, res) => {
   // Get file's data
-  let fileData = await fileModel.findOne({ id: req.params.id });
+  let fileData;
+  try {
+    fileData = await fileModel.findOne({ id: req.params.id });
+    logger.debug('Got file', req.params.id, 'from DB');
+  } catch (err) {
+    // If error occurs when retreiving from DB, return 500 (Internal Server Error)
+    if (err) {
+      logger.error('Getting', req.params.id, 'from DB failed');
+      logger.error(err);
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+        fix: "Try again later."
+      });
+      return;
+    }
+  }
   // Check if file's data exists, if not return
   if (!fileData) return res.json({
     success: false,
@@ -23,15 +39,43 @@ router.get('/:id', async (req, res) => {
   // Get the file's path
   let filePath = path.resolve('files', fileData.path);
   // If it exists, delete the file
-  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-  logger.log('Deleted file', req.params.id);
-  // Delete the file from the DB
-  await fileModel.deleteOne(fileData);
-  res.json({
-    success: true,
-    message: "Successfully deleted the file."
+  if (fs.existsSync(filePath)) fs.unlink(filePath, async (err) => {
+    if (err) {
+      logger.error('Deleting', req.params.id, 'from disk failed');
+      logger.error(err);
+      res.status(500).json({
+        success: true,
+        message: "Internal Server Error",
+        fix: "Try again later."
+      });
+      return;
+    }
+    logger.debug('Deleted file', req.params.id, 'from disk');
+    // Delete the file from the DB
+    try {
+      await fileModel.deleteOne(fileData);
+      logger.debug('Deleted file', req.params.id, 'from db');
+    } catch (err) {
+      // If error occurs when retreiving from DB, return 500 (Internal Server Error)
+      if (err) {
+        logger.error('Deleting', req.params.id, 'from DB failed');
+        logger.error(err);
+        res.status(500).json({
+          success: true,
+          message: "File was deleted from disk but not database.",
+          fix: "Try again later."
+        });
+        return;
+      }
+    }
+    logger.log('Deleted file', req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Successfully deleted the file."
+    });
+    return;
+
   });
-  return;
 });
 
 // Export
