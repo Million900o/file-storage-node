@@ -32,7 +32,7 @@ module.exports.error = (...args) => {
 module.exports.debug = (...args) => {
   // Check if actually debuging, if not return
   if (!config.debug || args.length == 0) return;
-  let msg = `${'[DEBUG]'.magenta} ${args.length > 0 ? args.join(' ').white : ''}`;
+  let msg = `${'[DEBUG]'.magenta} ${args.join(' ').white}`;
   console.log(msg);
   return;
 };
