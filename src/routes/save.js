@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
     req.files.file.mv(`./files/${filePath}`, async (err) => {
       // If error return 500 (Internal server error)
       if (err) {
+        logger.error('Saving file', fileID, 'to the disk failed');
         logger.error(err);
         res.status(500).json({
           success: false,
@@ -44,6 +45,7 @@ router.post('/', async (req, res) => {
         });
         return;
       } else {
+        logger.debug('Saved file', fileID, 'to the disk');
         // Define the object
         let fileObject = {
           id: fileID,
@@ -53,7 +55,21 @@ router.post('/', async (req, res) => {
           date: new Date().toLocaleString()
         };
         // Create the file in the DB with the object
-        await fileModel.create(fileObject);
+        try {
+          await fileModel.create(fileObject);
+          logger.debug('Saved file', fileID, 'to the DB');
+        } catch (err) {
+          // If error occurs when retreiving from DB, return 500 (Internal Server Error)
+          if (err) {
+            logger.error('Saving file', fileID, 'to the DB failed');
+            logger.error(err);
+            res.status(500).json({
+              success: false,
+              message: "Internal Server Error",
+              fix: "Try again later."
+            });
+          }
+        }
         // Return with status 200 (OK) and send file's ID
         res.status(200).json({
           success: true,
