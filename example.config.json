@@ -1,6 +1,6 @@
 {
-    "mainIP": "127.0.0.1",
-    "token": "token",
+    "mainIP": "[IP]",
+    "token": "[TOKEN]",
     "debug": false,
     "mongo": {
         "connectURI": "mongodb://localhost/file-node",
