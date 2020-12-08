@@ -5,6 +5,8 @@ Allow you to host files and server on different machines, or just move into diff
 
 Not very useful since it adds delay and would require code to be built around it, and at that point just use normal storage.
 
+Make contributions if you want.
+
 ---
 
 Example of code that uses this: [Click Here](https://github.com/AlexanderPaolini/file-storage-server)
