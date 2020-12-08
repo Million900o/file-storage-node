@@ -5,7 +5,7 @@ Allow you to host files and server on different machines, or just move into diff
 
 Not very useful since it adds delay and would require code to be built around it, and at that point just use normal storage.
 
-Make contributions if you want.
+Make contributions if you want. If you have any questions or such, just make an issue, or contact me.
 
 ---
 
