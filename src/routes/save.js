@@ -2,6 +2,9 @@
 const logger = require('../util/logger.js');
 const fileModel = require('../models/file.js');
 
+// For responses
+const messages = require('../util/messages.json');
+
 // Define router
 const { Router } = require('express');
 const router = new Router();
@@ -22,8 +25,8 @@ router.post('/', async (req, res) => {
   if (!req.files?.file) {
     res.status(400).json({
       success: false,
-      message: "No file was sent.",
-      fix: "Send a file in the request."
+      message: messages.FILE_NOT_SENT,
+      fix: messages.SEND_FILE
     });
     return;
   } else {
@@ -40,8 +43,8 @@ router.post('/', async (req, res) => {
         logger.error(err);
         res.status(500).json({
           success: false,
-          message: "An unknown error has occured.",
-          fix: "Try again."
+          message: messages.UNKNOWN_ERROR,
+          fix: messages.TRY_AGAIN
         });
         return;
       } else {
@@ -65,8 +68,8 @@ router.post('/', async (req, res) => {
             logger.error(err);
             res.status(500).json({
               success: false,
-              message: "Internal Server Error",
-              fix: "Try again later."
+              message: messages.INTERNAL_ERROR,
+              fix: messages.TRY_AGAIN
             });
           }
         }

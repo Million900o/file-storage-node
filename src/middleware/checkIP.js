@@ -1,6 +1,9 @@
 // Get config 
 const config = require('../../config.json');
 
+// For responses
+const messages = require('../util/messages.json');
+
 // Define util functions
 const util = require('../util/index.js');
 const logger = require('../util/logger.js');
@@ -17,8 +20,7 @@ router.use(async (req, res, next) => {
     logger.warn('Failed IP check from', await util.parseIP(req.ip));
     res.status(401).json({
       success: false,
-      message: "Incorrect IP",
-      fix: "none"
+      message: messages.FAILED_AUTH,
     });
     return;
   }
