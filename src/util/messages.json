@@ -1,0 +1,13 @@
+{
+  "INTERNAL_ERROR": "Internal Server Error",
+  "TRY_AGAIN": "Try again later.",
+  "USE_DIFF_ID": "Use a different ID.",
+  "DELETED_DB_NOT_DISK": "File was deleted from disk but not database.",
+  "DELETED_SUCCESS": "Successfully deleted the file.",
+  "SEND_FILE": "Send a file in the request.",
+  "FILE_NOT_SENT": "No file was sent.",
+  "FILE_NOT_EXISTS_DB": "File does not exist in the DB.",
+  "FILE_NOT_EXISTS_DISK": "File does not exist.",
+  "UNKNOWN_ERROR": "An unknown error has occured.",
+  "FAILED_AUTH": "Authentication Failed."
+}

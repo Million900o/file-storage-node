@@ -2,6 +2,9 @@
 const logger = require('../util/logger.js');
 const fileModel = require('../models/file.js');
 
+// For responses
+const messages = require('../util/messages.json');
+
 // To get the path
 const path = require('path');
 
@@ -23,8 +26,8 @@ router.get('/:id', async (req, res) => {
       logger.error(err);
       req.status(500).json({
         success: false,
-        message: "Internal Server Error",
-        fix: "Try again later."
+        message: messages.INTERNAL_ERROR,
+        fix: messages.TRY_AGAIN
       });
       return;
     }
@@ -32,8 +35,8 @@ router.get('/:id', async (req, res) => {
   // Check if file's data exists, if not return
   if (!fileData) return res.json({
     success: false,
-    message: "File does not exist.",
-    fix: "Use a different ID."
+    message: messages.FILE_NOT_EXIST_DISK,
+    fix: messages.USE_DIFF_ID
   });
   // Set headers of Content-Type to mime-type of file and send file
   res.header('Content-Type', fileData.mimetype);

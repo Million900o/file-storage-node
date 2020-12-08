@@ -2,6 +2,9 @@
 const logger = require('../util/logger.js');
 const fileModel = require('../models/file.js');
 
+// For responses
+const messages = require('../util/messages.json');
+
 // For deleting files
 const fs = require('fs');
 const path = require('path');
@@ -24,8 +27,8 @@ router.get('/:id', async (req, res) => {
       logger.error(err);
       res.status(500).json({
         success: false,
-        message: "Internal Server Error",
-        fix: "Try again later."
+        message: messages.INTERNAL_ERROR,
+        fix: messages.TRY_AGAIN
       });
       return;
     }
@@ -33,8 +36,8 @@ router.get('/:id', async (req, res) => {
   // Check if file's data exists, if not return
   if (!fileData) return res.json({
     success: false,
-    message: "File does not exist in DB",
-    fix: "Use a different ID"
+    message: messages.FILE_NOT_EXISTS_DB,
+    fix: messages.USE_DIFF_ID
   });
   // Get the file's path
   let filePath = path.resolve('files', fileData.path);
@@ -45,8 +48,8 @@ router.get('/:id', async (req, res) => {
       logger.error(err);
       res.status(500).json({
         success: true,
-        message: "Internal Server Error",
-        fix: "Try again later."
+        message: messages.INTERNAL_ERROR,
+        fix: messages.TRY_AGAIN
       });
       return;
     }
@@ -62,8 +65,8 @@ router.get('/:id', async (req, res) => {
         logger.error(err);
         res.status(500).json({
           success: true,
-          message: "File was deleted from disk but not database.",
-          fix: "Try again later."
+          message: messages.DELETED_DB_NOT_DISK,
+          fix: messages.TRY_AGAIN
         });
         return;
       }
@@ -71,7 +74,7 @@ router.get('/:id', async (req, res) => {
     logger.log('Deleted file', req.params.id);
     res.status(200).json({
       success: true,
-      message: "Successfully deleted the file."
+      message: messages.DELETED_SUCCESS
     });
     return;
 
