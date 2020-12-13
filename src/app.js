@@ -25,7 +25,7 @@ const saveFile = require('./routes/save.js');
 const deleteFile = require('./routes/delete.js');
 
 // Routes
-app.use('/get/', checkIP, checkToken, getFile);
+app.use('/get', checkIP, checkToken, getFile);
 app.use('/save', checkIP, checkToken, saveFile);
 app.use('/delete', checkIP, checkToken, deleteFile);
 
